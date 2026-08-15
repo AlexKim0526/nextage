@@ -6,14 +6,14 @@
 <title>내 노후 계산기 · 확장판</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root{--bg:#0f1720;--panel:#16212e;--panel2:#1d2b3a;--line:#2b3d50;--txt:#eef4fa;--muted:#a7b7c8;
-    --accent:#4da3ff;--good:#3ecf8e;--warn:#ffb020;--bad:#ff6b6b;--chip:#22344a;}
+  :root{--bg:#f4f6f8;--panel:#ffffff;--panel2:#eef2f7;--line:#e2e8f0;--txt:#111827;--muted:#5b6b7c;
+    --accent:#2563eb;--good:#0f9d58;--warn:#c2740a;--bad:#dc2626;--chip:#eef2f7;--dim:#7b8794;}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Pretendard",sans-serif;
     background:var(--bg);color:var(--txt);font-size:17px;line-height:1.6;
     word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased;
     font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
-  header{padding:calc(env(safe-area-inset-top) + 22px) 28px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#16212e,#0f1720)}
+  header{padding:calc(env(safe-area-inset-top) + 22px) 28px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff,#f4f6f8)}
   header h1{margin:0;font-size:27px;font-weight:800;letter-spacing:-.6px}
   header p{margin:8px 0 0;color:var(--muted);font-size:15px}
   .wrap{display:grid;grid-template-columns:440px 1fr;gap:0;min-height:calc(100vh - 100px)}
@@ -28,24 +28,24 @@
   .fld label{display:block;font-size:15px;color:var(--txt);margin-bottom:6px;font-weight:600}
   .fld .lk{color:var(--accent);font-size:13px;text-decoration:none;margin-left:6px;font-weight:400}
   .fld .lk:hover{text-decoration:underline}
-  .fld input,.fld select{width:100%;padding:12px 14px;background:#0e1621;border:1px solid var(--line);
+  .fld input,.fld select{width:100%;padding:12px 14px;background:#f7f9fc;border:1px solid var(--line);
     border-radius:10px;color:var(--txt);font-size:17px}
   .fld input:focus,.fld select:focus{outline:none;border-color:var(--accent)}
-  .fld .hint{font-size:12.5px;color:#8fa1b4;margin-top:5px}
+  .fld .hint{font-size:12.5px;color:#5b6b7c;margin-top:5px}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .stickybar{position:sticky;bottom:-22px;margin:0 -22px -22px;padding:16px 22px 22px;
     background:linear-gradient(180deg,rgba(15,23,32,0),var(--bg) 45%)}
-  .btn{width:100%;padding:16px;background:var(--accent);color:#04121f;border:none;border-radius:12px;
+  .btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:12px;
     font-weight:800;font-size:18px;cursor:pointer}
   .btn:hover{filter:brightness(1.08)}
   .btn2{width:100%;margin-top:8px;padding:13px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:11px;font-weight:700;font-size:15px;cursor:pointer}
   .btn2:hover{background:rgba(77,163,255,.1)}
   .optbox{margin-top:12px;padding:15px 16px;border:1px solid var(--good);border-radius:12px;background:rgba(62,207,142,.08);font-size:14.5px;line-height:1.65}
   .optbox b{color:var(--good)}
-  .optbox .apply{margin-top:12px;width:100%;padding:12px;background:var(--good);color:#04121f;border:none;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer}
+  .optbox .apply{margin-top:12px;width:100%;padding:12px;background:#0a7d45;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer}
   .autolbl{text-align:center;font-size:13px;color:var(--good);margin-top:8px}
   .autolbl a{color:var(--muted);text-decoration:underline;cursor:pointer;margin-left:8px}
-  .summary{background:linear-gradient(135deg,#1a2c3f,#16212e);border:1px solid var(--line);border-radius:16px;
+  .summary{background:linear-gradient(135deg,#eef4ff,#ffffff);border:1px solid var(--line);border-radius:16px;
     padding:20px 22px;margin-bottom:20px;font-size:18px;line-height:1.7}
   .summary b{color:var(--accent)}
   .summary .ok{color:var(--good)} .summary .no{color:var(--warn)}
@@ -68,7 +68,7 @@
   .pill.job{background:rgba(77,163,255,.18);color:var(--accent)}
   .tablebox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px 18px 18px;max-height:460px;overflow-y:auto}
   .tablebox h4{margin:14px 0 10px;font-size:16px;font-weight:700}
-  .note{font-size:13px;color:#8fa1b4;margin-top:18px;line-height:1.7}.note a{color:var(--accent);text-decoration:none}
+  .note{font-size:13px;color:#5b6b7c;margin-top:18px;line-height:1.7}.note a{color:var(--accent);text-decoration:none}
   /* 출력(미리보기·인쇄) */
   #printModal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;overflow:auto;padding:24px;display:none}
   #printModal.show{display:block}
@@ -126,10 +126,12 @@
   .wonconv{font-size:12.5px;color:var(--good);font-weight:700;text-align:right;margin-top:5px;min-height:16px}
   .seg{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
   .seg button{flex:1 1 0;min-width:70px;padding:13px 8px;border:1.5px solid var(--line);background:var(--chip,#22344a);color:var(--txt);border-radius:11px;font-size:15px;font-weight:700;cursor:pointer}
-  .seg button.on{background:var(--accent);color:#04121f;border-color:transparent}
+  .seg button.on{background:var(--accent);color:#fff;border-color:transparent}
   .subdiv{border:none;border-top:1px dashed var(--line);margin:16px 0 12px}
   @media(max-width:700px){ .fld{margin-bottom:17px} .sec .body{padding:14px 14px 16px} .fld label{font-size:15px} }
   @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+  .card,.summary,.chartbox,.tablebox{box-shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04)}
+  .sec{box-shadow:0 1px 2px rgba(16,24,40,.04)}
 </style>
 </head>
 <body>
@@ -450,18 +452,18 @@ function run(){
     const label=x.status==='피부양자'?'피부양자':'지역가입자';
     const sc=x.surplus>=-0.5?'var(--good)':'var(--bad)';
     return `<tr><td>${x.age}세</td><td><span class="pill ${cls}">${label}</span></td>
-      <td>${fmt(x.np)}</td><td>${fmt(x.draw)}</td><td>${fmt(x.tax)}${x.draw>0?' <span style="color:#8fa1b4;font-size:12.5px">('+(x.tax/x.draw*100).toFixed(1)+'%)</span>':''}</td><td>${fmt(x.premium)}</td>
+      <td>${fmt(x.np)}</td><td>${fmt(x.draw)}</td><td>${fmt(x.tax)}${x.draw>0?' <span style="color:#5b6b7c;font-size:12.5px">('+(x.tax/x.draw*100).toFixed(1)+'%)</span>':''}</td><td>${fmt(x.premium)}</td>
       <td style="color:${sc};font-weight:700">${fmt(x.net)}</td></tr>`;}).join('');
 
   const labels=r.rows.map(x=>x.age+'세');
   if(chart)chart.destroy();
   chart=new Chart($('chart'),{type:'bar',data:{labels,datasets:[
-    {label:'쓸 수 있는 돈',data:r.rows.map(x=>Math.round(x.net)),backgroundColor:'#4da3ff'},
-    {label:'건강보험료',data:r.rows.map(x=>Math.round(x.premium)),backgroundColor:'#ffb020'},
-    {label:'세금',data:r.rows.map(x=>Math.round(x.tax)),backgroundColor:'#ff6b6b'},
-    {type:'line',label:'목표 생활비',data:r.rows.map(x=>Math.round(x.net-x.surplus)),borderColor:'#3ecf8e',borderDash:[6,4],pointRadius:0,borderWidth:2.5}
-  ]},options:{responsive:true,animation:false,plugins:{legend:{labels:{color:'#a7b7c8',font:{size:13}}}},
-    scales:{x:{ticks:{color:'#8fa1b4',font:{size:11}},grid:{color:'#1d2b3a'}},y:{ticks:{color:'#8fa1b4',font:{size:12}},grid:{color:'#1d2b3a'}}}}});
+    {label:'쓸 수 있는 돈',data:r.rows.map(x=>Math.round(x.net)),backgroundColor:'#2563eb'},
+    {label:'건강보험료',data:r.rows.map(x=>Math.round(x.premium)),backgroundColor:'#e0870a'},
+    {label:'세금',data:r.rows.map(x=>Math.round(x.tax)),backgroundColor:'#dc2626'},
+    {type:'line',label:'목표 생활비',data:r.rows.map(x=>Math.round(x.net-x.surplus)),borderColor:'#0f9d58',borderDash:[6,4],pointRadius:0,borderWidth:2.5}
+  ]},options:{responsive:true,animation:false,plugins:{legend:{labels:{color:'#5b6b7c',font:{size:13}}}},
+    scales:{x:{ticks:{color:'#5b6b7c',font:{size:11}},grid:{color:'#e6ebf1'}},y:{ticks:{color:'#5b6b7c',font:{size:12}},grid:{color:'#e6ebf1'}}}}});
 
   $('footNote').innerHTML=`이 계산기는 '필요한 만큼만 꺼내 쓰는' 방식으로, 세금이 낮은 순서(현금→ISA→퇴직금→개인연금→주식)로 자동 인출합니다.
     금액은 미래 물가 기준(명목)이며 2026년 제도 기준 추정치입니다. 실제 금액은 <a href="https://www.nhis.or.kr" target="_blank">건강보험공단</a>·<a href="https://www.hometax.go.kr" target="_blank">홈택스</a>에서 확인하세요. 세무 자문이 아닙니다.`;
@@ -491,7 +493,7 @@ function renderNPOpt(){
   let msg;
   if(same){msg=`현재 설정(본인 <b>${b.s}세</b>${base.hasSpouse?' · 배우자 <b>'+b.sp+'세</b>':''})이 이미 <b>세금·건보료 최적</b>입니다. 👍`;}
   else{msg=`👉 본인 <b>${b.s}세</b>${spTxt}에 받으면 평생 <b>세금+건강보험료</b>가 가장 적습니다.<br>현재 설정보다 약 <b>${eok(Math.max(0,save))}</b> 절약됩니다.`;}
-  box.innerHTML=`${msg}<div style="font-size:12.5px;color:#8fa1b4;margin-top:8px">추천 시 — 건강보험 ${b.r.depOut?b.r.depOut+'세부터 지역가입자':'평생 피부양자(0원)'} · 평생 세금+건보료 ${eok(b.r.totH+b.r.totT)} · 평생 쓸 돈 ${eok(b.r.totNet)} · 물려줄 돈 ${eok(b.r.bequest)}${b.r.deplete?' · ⚠️'+b.r.deplete+'세 자금소진':''}</div>${same?'':`<button class="apply" onclick="applyNP(${b.s},${b.sp})">이 나이로 적용하기 ▶</button>`}<div style="font-size:11.5px;color:#7a8ba0;margin-top:8px">※ 세금·건보료를 가장 아끼는 기준입니다. 오래 살수록 늦게 받는 편이 총수령액은 커질 수 있으니 함께 고려하세요.</div>`;
+  box.innerHTML=`${msg}<div style="font-size:12.5px;color:#5b6b7c;margin-top:8px">추천 시 — 건강보험 ${b.r.depOut?b.r.depOut+'세부터 지역가입자':'평생 피부양자(0원)'} · 평생 세금+건보료 ${eok(b.r.totH+b.r.totT)} · 평생 쓸 돈 ${eok(b.r.totNet)} · 물려줄 돈 ${eok(b.r.bequest)}${b.r.deplete?' · ⚠️'+b.r.deplete+'세 자금소진':''}</div>${same?'':`<button class="apply" onclick="applyNP(${b.s},${b.sp})">이 나이로 적용하기 ▶</button>`}<div style="font-size:11.5px;color:#5b6b7c;margin-top:8px">※ 세금·건보료를 가장 아끼는 기준입니다. 오래 살수록 늦게 받는 편이 총수령액은 커질 수 있으니 함께 고려하세요.</div>`;
 }
 function applyNP(sv,sp){$('npStartAge').value=sv; if($('spNpStartAge'))$('spNpStartAge').value=sp; $('npOptResult').style.display='none'; run();}
 
@@ -576,14 +578,14 @@ function renderSpendOpt(){
   box.innerHTML=
     '<div style="font-weight:800;font-size:15px;margin-bottom:2px">💸 다 쓰고 가기 (물려줄 돈 0)</div>'
     +'월 <b style="font-size:18px">'+fmt(sA)+'만원</b>까지 쓰면 예상수명('+P().lifeExp+'세)에 자산이 거의 남지 않습니다.'
-    +'<div style="font-size:12.5px;color:#8fa1b4;margin:4px 0 2px">이때 — 평생 세금 '+eok(rA.totT)+' · 평생 건보료 '+eok(rA.totH)+' · '+(rA.deplete?rA.deplete+'세 소진':'수명까지 유지')+'</div>'
+    +'<div style="font-size:12.5px;color:#5b6b7c;margin:4px 0 2px">이때 — 평생 세금 '+eok(rA.totT)+' · 평생 건보료 '+eok(rA.totH)+' · '+(rA.deplete?rA.deplete+'세 소진':'수명까지 유지')+'</div>'
     +'<button class="apply" onclick="applySpend('+sA+')">이 금액으로 적용 ▶</button>'
     +'<hr style="border:none;border-top:1px solid rgba(255,255,255,.12);margin:14px 0">'
     +'<div style="font-weight:800;font-size:15px;margin-bottom:2px">🧾 세금 효율 최적 (낮은 세율 유지)</div>'
     +'월 <b style="font-size:18px">'+fmt(sB)+'만원</b>까지는 <b>낮은 세율</b>로 쓸 수 있습니다. 더 쓰면 연금이 저율 한도(연 1,500만)를 넘어 세율이 크게 오릅니다.'
-    +'<div style="font-size:12.5px;color:#8fa1b4;margin:4px 0 2px">이때 — 평생 세금 '+eok(rB.totT)+' (실효 '+rateB+'%) · 평생 건보료 '+eok(rB.totH)+' · 물려줄 돈 '+eok(rB.bequest)+'</div>'
+    +'<div style="font-size:12.5px;color:#5b6b7c;margin:4px 0 2px">이때 — 평생 세금 '+eok(rB.totT)+' (실효 '+rateB+'%) · 평생 건보료 '+eok(rB.totH)+' · 물려줄 돈 '+eok(rB.bequest)+'</div>'
     +'<button class="apply" onclick="applySpend('+sB+')">이 금액으로 적용 ▶</button>'
-    +'<div style="font-size:11.5px;color:#7a8ba0;margin-top:10px">※ 예상수명·나머지 입력을 고정한 결과입니다. \'세금 효율\'은 세금을 0으로 만드는 게 아니라, <b>낮은 세율을 유지하며 쓸 수 있는 최대 생활비</b>입니다. \'다 쓰고 가기\'는 버퍼가 없어 장수·의료비 위험이 크니 감안하세요. 추정치입니다.</div>';
+    +'<div style="font-size:11.5px;color:#5b6b7c;margin-top:10px">※ 예상수명·나머지 입력을 고정한 결과입니다. \'세금 효율\'은 세금을 0으로 만드는 게 아니라, <b>낮은 세율을 유지하며 쓸 수 있는 최대 생활비</b>입니다. \'다 쓰고 가기\'는 버퍼가 없어 장수·의료비 위험이 크니 감안하세요. 추정치입니다.</div>';
 }
 function applySpend(ms){$('monthlySpend').value=Math.round(ms); $('spendOptResult').style.display='none'; run();}
 
