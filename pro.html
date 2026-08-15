@@ -132,6 +132,7 @@
   @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
   .card,.summary,.chartbox,.tablebox{box-shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04)}
   .sec{box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .fld select.agesel{font-weight:700}
 </style>
 </head>
 <body>
@@ -146,11 +147,11 @@
     <div class="sec"><h3>1. 내 정보</h3>
       <div class="body">
         <div class="row2">
-          <div class="fld"><label>현재 나이</label><input id="curAge" type="number" inputmode="numeric" value="55"></div>
-          <div class="fld"><label>은퇴 나이</label><input id="retireAge" type="number" inputmode="numeric" value="60"><div class="hint">연금·저축을 꺼내 쓰기 시작하는 나이</div></div>
+          <div class="fld"><label>현재 나이 (만)</label><select id="curAge" class="agesel" data-lo="35" data-hi="85" data-def="50"></select></div>
+          <div class="fld"><label>은퇴 나이 (만)</label><select id="retireAge" class="agesel" data-lo="45" data-hi="85" data-def="60"></select><div class="hint">연금·저축을 꺼내 쓰기 시작하는 나이</div></div>
         </div>
         <div class="row2">
-          <div class="fld"><label>예상 수명</label><input id="lifeExp" type="number" inputmode="numeric" value="90"></div>
+          <div class="fld"><label>예상 수명 (만)</label><select id="lifeExp" class="agesel" data-lo="70" data-hi="110" data-def="90"></select></div>
           <div class="fld"><label>배우자</label><select id="hasSpouse"><option value="1">있음</option><option value="0">없음</option></select></div>
         </div>
         <div class="fld"><label>건강보험 피부양자 등재</label>
@@ -166,13 +167,13 @@
       <div class="body">
         <div class="fld"><label>국민연금 월수령액 (만원) <a class="lk" href="https://www.nps.or.kr" target="_blank">조회↗</a></label>
           <input id="npMonthly" type="number" inputmode="numeric" value="120"><div class="hint">65세 기준 예상액. 일찍/늦게 받으면 자동 조정</div></div>
-        <div class="fld"><label>국민연금 받기 시작하는 나이</label><input id="npStartAge" type="number" inputmode="numeric" value="65"><div class="hint">60~70세. 빠르면 감액, 늦으면 증액</div></div>
+        <div class="fld"><label>국민연금 받기 시작하는 나이 (만)</label><select id="npStartAge" class="agesel" data-lo="60" data-hi="70" data-def="65"></select><div class="hint">60~70세. 빠르면 감액, 늦으면 증액</div></div>
         <div class="fld"><label>은퇴~60세 국민연금 납입</label>
           <select id="npPayMode"><option value="normal">정상 (60세까지 현재 수준 유지)</option><option value="min">최소 (임의가입 최소납입·월 약 10만)</option><option value="none">미납 (은퇴부터 중단)</option></select>
           <div class="hint">위 수령액은 '정상' 기준. 최소·미납이면 가입기간·소득 감소로 연금이 줄어듭니다(추정). 정확치는 <a class="lk" href="https://www.nps.or.kr" target="_blank">공단 모의계산↗</a></div></div>
         <div class="row2">
           <div class="fld"><label>배우자 국민연금 월액</label><input id="spNpMonthly" type="number" inputmode="numeric" value="0"></div>
-          <div class="fld"><label>배우자 개시 나이</label><input id="spNpStartAge" type="number" inputmode="numeric" value="65"></div>
+          <div class="fld"><label>배우자 개시 나이 (만)</label><select id="spNpStartAge" class="agesel" data-lo="60" data-hi="70" data-def="65"></select></div>
         </div>
         <button class="btn2" onclick="renderNPOpt()">🎯 세금·건보료 아끼는 최적 수령나이 찾기</button>
         <div id="npOptResult" class="optbox" style="display:none"></div>
@@ -221,10 +222,10 @@
           <div class="fld"><label>몇 세까지</label><input id="workUntilAge" type="number" inputmode="numeric" value="65"><div class="hint">근로소득은 건보료·피부양 판정에 반영</div></div>
         </div>
         <hr class="subdiv"><div class="row2">
-          <div class="fld"><label>🏥 큰 의료비 발생 나이</label><input id="medAge" type="number" inputmode="numeric" value="80"></div>
+          <div class="fld"><label>🏥 큰 의료비 발생 나이 (만)</label><select id="medAge" class="agesel" data-lo="60" data-hi="100" data-def="80"></select></div>
           <div class="fld"><label>금액 (만원·오늘기준)</label><input id="medAmount" type="number" inputmode="numeric" value="0"><div class="hint">간병·수술 등 일시 큰 지출 스트레스 테스트</div></div>
         </div>
-        <hr class="subdiv"><div class="fld"><label>🖤 배우자 사망 가정 — 본인 나이 (0=미적용)</label><input id="spDeathAge" type="number" inputmode="numeric" value="0"></div>
+        <hr class="subdiv"><div class="fld"><label>🖤 배우자 사망 가정 — 본인 나이 (만)</label><select id="spDeathAge" class="agesel" data-lo="60" data-hi="100" data-def="0" data-zero="1"></select></div>
         <div class="row2">
           <div class="fld"><label>이후 생활비 비율 (%)</label><input id="survRatio" type="number" inputmode="numeric" value="70"></div>
           <div class="fld"><label>유족연금 승계율 (%)</label><input id="survivorPct" type="number" inputmode="numeric" value="60"><div class="hint">사망 배우자 국민연금의 승계 비율</div></div>
@@ -590,6 +591,8 @@ function renderSpendOpt(){
 function applySpend(ms){$('monthlySpend').value=Math.round(ms); $('spendOptResult').style.display='none'; run();}
 
 $('resetBtn').onclick=()=>{try{localStorage.removeItem(LS_KEY);}catch(e){} location.reload();};
+function buildAgeSelects(){document.querySelectorAll('select.agesel').forEach(sel=>{const lo=+sel.dataset.lo,hi=+sel.dataset.hi,def=sel.dataset.def,zero=sel.dataset.zero;let h=(zero!==undefined)?'<option value="0">미적용</option>':'';for(let a=lo;a<=hi;a++)h+='<option value="'+a+'">'+a+'세</option>';sel.innerHTML=h;sel.value=def;});}
+buildAgeSelects();
 loadState();
 document.querySelectorAll('.left input,.left select').forEach(el=>el.addEventListener('input',run));
 renderHoldings();
